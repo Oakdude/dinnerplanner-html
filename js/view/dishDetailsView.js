@@ -9,7 +9,7 @@ var DishDetailsView = function (container, model) {
    var dishDetailsText = container.find("#dishDetailsText");
    var tableBody = container.find("#tableBody");
    var ingredientsViewCost = container.find("#ingredientsViewCost");
-
+   var ingredientsPeople = container.find("#ingredientsPeople");
 
 
   var selectdish = 1;
@@ -36,6 +36,7 @@ var DishDetailsView = function (container, model) {
   }
 
   ingredientsViewCost.append("SEK" + " " + totCost);
-
+  var p = model.getNumberOfGuests();
+  ingredientsPeople.append("<b>Ingredients for " +  p +" people</b>");
 
 }
