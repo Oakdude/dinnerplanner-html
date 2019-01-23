@@ -25,10 +25,12 @@ var DishDetailsView = function (container, model) {
 
   var dishIngredients = model.getDishIngredients(selectdish);
   var totCost = 0;
+  var p = model.getNumberOfGuests();
+
   for (ingredient of dishIngredients){
     var name = ingredient.name;
-    var price = ingredient.price;
-    var quantity = ingredient.quantity;
+    var price = ingredient.price*p;
+    var quantity = ingredient.quantity*p;
     var unit = ingredient.unit;
     totCost += price;
     tableBody.append("<tr><td>" +  quantity + " " + unit + "</td><td>" + name + "</td><td>SEK</td><td>" + price + "</td></tr>");
@@ -36,7 +38,6 @@ var DishDetailsView = function (container, model) {
   }
 
   ingredientsViewCost.append("SEK" + " " + totCost);
-  var p = model.getNumberOfGuests();
   ingredientsPeople.append("<b>Ingredients for " +  p +" people</b>");
 
 }
