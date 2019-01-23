@@ -10,7 +10,7 @@ var View5 = function (container, model) {
       console.log(img);
       var title = dish.name;
       console.log(title);
-      gallery.append('<div class="col-xs-12 col-sm-5 col-md-4 col-lg-3 placeholder"><img src="images/' + img + '" alt="bild"><div><h4>' + title + '</h4></div></div>');
+      gallery.append('<div class="col-xs-12 col-sm-5 col-md-4 placeholder"><img src="images/' + img + '" alt="bild"><div><h4>' + title + '</h4></div></div>');
 
 
 	}
