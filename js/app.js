@@ -4,11 +4,12 @@ $(function() {
 
 	// And create the instance of ExampleView
 	//var exampleView = new ExampleView($("#sidebar"), model);
+	var welcomeView = new WelcomeView($("#mainContainer"), model);
 	var sidebarView = new SidebarView($("#sidebar"), model);
 	var allDishesView = new AllDishesView($("#dashboard"), model);
 	var dishDetailsView = new DishDetailsView($("#view3"), model);
 	var view6 = new View6($("#view6"), model);
-  var view5 = new View5($("#myDinnerView"), model);
+  	var view5 = new View5($("#myDinnerView"), model);
 	var myDinnerHeader = new MyDinnerHeader($("#dinnerOverviewHeader"), model); 
 
 	/**
