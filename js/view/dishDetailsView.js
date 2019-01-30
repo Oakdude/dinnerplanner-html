@@ -1,8 +1,6 @@
 
 var DishDetailsView = function (container, model) {
 
-
-
    var dishDetails = container.find("#dishDetails");
    var title1 = container.find("#title");
    var dishImg = container.find("#dishImg");
@@ -10,24 +8,25 @@ var DishDetailsView = function (container, model) {
    var tableBody = container.find("#tableBody");
    var ingredientsViewCost = container.find("#ingredientsViewCost");
    var ingredientsPeople = container.find("#ingredientsPeople");
+   this.backBtn = container.find("#backToMainButton");
 
 var loadDishDetails = function() {
-  var selectdish = 1;
+  var selectdish = model.getClickedDish();
+  console.log(selectdish);
   var dish = model.getDish(selectdish);
   var img = dish.image;
-  console.log(img);
   var title = dish.name;
-  console.log(title);
   var desc = dish.description;
-  title1.append("<b>" + title + "</b>");
-  dishImg.append('<img src="images/' + img + '" alt="Dish"/>');
-  dishDetailsText.append(desc);
+  title1.html("<b>" + title + "</b>");
+  dishImg.html('<img src="images/' + img + '" alt="Dish"/>');
+  dishDetailsText.html(desc);
 
   var dishIngredients = model.getDishIngredients(selectdish);
   var totCost = 0;
   var p = model.getNumberOfGuests();
-
+  tableBody.html("");
   for (ingredient of dishIngredients){
+
     var name = ingredient.name;
     var price = ingredient.price*p;
     var quantity = ingredient.quantity*p;
@@ -37,17 +36,18 @@ var loadDishDetails = function() {
 
   }
 
-
-  ingredientsViewCost.append("SEK" + " " + totCost);
-  ingredientsPeople.append("<b>Ingredients for " +  p +" people</b>");
+  ingredientsViewCost.html("SEK" + " " + totCost);
+  ingredientsPeople.html("<b>Ingredients for " +  p +" people</b>");
 }
-  this.update = function() {
+
+
+
+this.update = function() {
       loadDishDetails();
     }
 
 this.show = function() {
     container.show();
-
 }
 
 this.hide = function() {
@@ -55,4 +55,6 @@ this.hide = function() {
 }
 
 model.addObserver(this);
+
+
 }

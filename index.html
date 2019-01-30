@@ -25,7 +25,7 @@
         <!-- welcome -->
         <!-- end of welcome view -->
         </div>
-        
+
         <div id="sidebar" class="col-md-2 sidebar"> <!-- sidebar absolute/fixed för olika bra-->
           <nav class="navbar navbar-default">
             <div class="navbar-header">
@@ -89,15 +89,15 @@
             <nav class="navbar navbar-expand-lg">
               <div id="navbarSupportedContent">
                 <form class="form-inline mr-auto">
-                  <input class="form-control input-group-lg" type="text" placeholder="Search">
-                  <select class="form-control input-group-lg">
+                  <input id="searchInput" class="form-control input-group-lg" type="text" placeholder="Search">
+                  <select id="dishTypeSelector" class="form-control input-group-lg">
                     <option selected>All types</option>
-                    <option value="1">Main Course</option>
-                    <option value="2">Side Dish</option>
-                    <option value="3">Dessert</option>
-                    <option value="4">Appetizer</option>
+                    <option value="main dish">Main Dish</option>
+                    <option value="starter">Starter</option>
+                    <option value="dessert">Dessert</option>
+       
                   </select>
-                  <button id="searchBtn" class="btn" type="submit">Search</button>
+                  <button id="searchBtn" class="btn">Search</button>
                 </form>
               </div>
             </nav>
@@ -175,15 +175,17 @@
           </div>
 
           <div class="text-center">
-              <button class="btn">Print Full Recepie</button>
+              <button id="recipeBtn" class="btn">Print Full Recipe</button>
           </div>
 
         </div> <!-- end of dinner overview -->
 
 
         <!-- printout view -->
-        <div id="printout" class="col-xs-12">
 
+        <div id="view6" class="col-xs-12">
+          <div id="printout">
+          </div>
         </div>
 
 
@@ -218,10 +220,6 @@
     <script src="js/controllers/dinnerOverviewCtrl.js"></script>
 
     <script src="js/app.js"></script>
-
-
-
-
 
   </body>
 </html>

@@ -1,29 +1,47 @@
 
 var AllDishesView = function (container, model) {
 
-
-  var gallery = container.find("#gallery");
-
-	var allDishesArr = model.getLiterallyAllDishes();
-	 for(dish of allDishesArr){
-     var img = dish.image;
-     console.log(img);
-     var title = dish.name;
-     console.log(title);
-     gallery.append('<div id="dishSelector" class="col-xs-6 col-sm-5 col-md-4 col-lg-3 placeholder"><img src="images/' + img + '" alt="bild"><div><h4>' + title + '</h4></div></div>');
-
-	}
-this.gallery = gallery;
-this.dishSelector = container.find("#dishSelector");
-this.show = function() {
-    container.show();
-
-}
-
-this.hide = function() {
-    container.hide();
-}
+    var gallery = container.find("#gallery");
+    
+    this.dishSelector = container.find(".dishSelector"); //dish to be clicked on
+    this.dishTypeSelector = container.find("#dishTypeSelector"); //dish to be clicked on
+    this.searchBtn = container.find("#searchBtn");
+    this.searchInput = container.find("#searchInput");
+    this.gallery = gallery;
+    //this.index = document.getElementById("dishTypeSelector").selectedIndex;
+    //console.log(this.index);
 
 
-model.addObserver(this);
+    //var allDishesArr = model.getLiterallyAllDishes();
+    var loadDishes = function(dishes) {
+        gallery.html("");
+        var dishesArray = dishes;
+       
+        //console.log(this.allDishesArr);
+
+        for(dish of dishesArray){
+            var img = dish.image;
+            var title = dish.name;
+            var id = dish.id;
+
+            gallery.append('<div data-dishid="' + id + '" class="col-xs-6 col-sm-5 col-md-4 col-lg-3 placeholder dishSelector"><img class="no-pointer" src="images/' + img + '" alt="bild"><div class="no-pointer"><h4>' + title + '</h4></div></div>');
+        }
+    }
+
+
+
+    this.update = function(dishes) {
+      loadDishes(dishes);
+    }
+
+    this.show = function() {
+        container.show();
+    }
+
+    this.hide = function() {
+        container.hide();
+    }
+    
+    model.addObserver(this);
+    loadDishes(model.getLiterallyAllDishes());
 }

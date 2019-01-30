@@ -55,6 +55,26 @@ $(function() {
 			printoutView.hide();
 			dinnerOverviewView.hide();
 		}
+		if (view == "dinnerOverviewView"){
+			welcomeView.hide();
+			sidebarView.hide();
+			allDishesView.hide();
+			dishDetailsView.hide();
+			myDinnerHeader.show();
+			printoutView.hide();
+			dinnerOverviewView.show();
+		}
+		if (view == "printoutView"){
+			welcomeView.hide();
+			sidebarView.hide();
+			allDishesView.hide();
+			dishDetailsView.hide();
+			myDinnerHeader.show();
+			printoutView.show();
+			dinnerOverviewView.hide();
+		}
+
+
 
 	}
 	showView("welcomeView");

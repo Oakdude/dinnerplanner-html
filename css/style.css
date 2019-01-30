@@ -18,7 +18,9 @@ form input {
 table {
 	margin-top: 15px;
 }
-
+.no-pointer {
+	pointer-events: none;
+}
 .img{
 	min-width: 260px;
 }
@@ -101,7 +103,7 @@ p {margin-top: 15px;}
 #searchBtn {
 	padding: 5px;
 	width:100px;
-	
+
 }
 
 #confirmDinnerBtn {

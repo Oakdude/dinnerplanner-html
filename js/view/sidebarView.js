@@ -5,7 +5,10 @@ var SidebarView = function (container, model) {
 	var cost = container.find("#sidebarTotalCost");
 	var numGuests = container.find("#numberOfGuests");
 	var people = container.find("#people");
+	this.confirmBtn = container.find("#confirmDinnerBtn");
+	this.inputGuests = container.find("#numberOfGuests");
 
+var loadSidebar = function() {
 	var a = model.getNumberOfGuests();
 	var dishesArr = model.getMenuNameAndCost();
 	var tCost = 0;
@@ -16,7 +19,8 @@ var SidebarView = function (container, model) {
 	cost.append("SEK " + tCost);
 	b = model.getNumberOfGuests();
 
-	people.append('<div class="form-group-md"><label for="numberOfGuests">People</label><input id="numberOfGuests" class="input-sm" type="number" value="' + b + '"></div>');
+	people.append('<div class="form-group-md"><label for="numberOfGuests">People</label><input id="numberOfGuests" min=0 class="input-sm" type="number" value="' + b + '"></div>');
+}
 
 this.update = function() {
     loadSidebar();
@@ -24,7 +28,6 @@ this.update = function() {
 
 this.show = function() {
       container.show();
-
   }
 
   this.hide = function() {
@@ -32,4 +35,5 @@ this.show = function() {
   }
 
 model.addObserver(this);
+loadSidebar();
 }
