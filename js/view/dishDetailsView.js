@@ -11,7 +11,7 @@ var DishDetailsView = function (container, model) {
    var ingredientsViewCost = container.find("#ingredientsViewCost");
    var ingredientsPeople = container.find("#ingredientsPeople");
 
-
+var loadDishDetails = function() {
   var selectdish = 1;
   var dish = model.getDish(selectdish);
   var img = dish.image;
@@ -37,7 +37,22 @@ var DishDetailsView = function (container, model) {
 
   }
 
+
   ingredientsViewCost.append("SEK" + " " + totCost);
   ingredientsPeople.append("<b>Ingredients for " +  p +" people</b>");
+}
+  this.update = function() {
+      loadDishDetails();
+    }
 
+this.show = function() {
+    container.show();
+
+}
+
+this.hide = function() {
+    container.hide();
+}
+
+model.addObserver(this);
 }

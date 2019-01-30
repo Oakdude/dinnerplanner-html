@@ -114,6 +114,7 @@ var DinnerModel = function() {
 	this.setNumberOfGuests = function(num) {
 		//TODO Lab 1
 		numberOfGuests = num;
+		this.notifyObservers();
 	}
 
 	this.getNumberOfGuests = function() {
@@ -205,6 +206,7 @@ var DinnerModel = function() {
          }
       }
     menu.push(this.getDish(id));
+		this.notifyObservers();
     }
 
 
@@ -213,6 +215,7 @@ var DinnerModel = function() {
 	this.removeDishFromMenu = function(id) {
 		//TODO Lab 1			tror funkar korrekt
 	    menu = menu.filter(dish => dish.id !== id);
+			this.notifyObservers();
 	}
 
 	//function that returns all dishes of specific type (i.e. "starter", "main dish" or "dessert")
@@ -501,5 +504,20 @@ var DinnerModel = function() {
 			}]
 		}
 	];
+
+this._observers = [];
+
+this.addObserver = function(observer)
+{
+	this._observers.push(observer);
+}
+
+this.notifyObservers = function(arg)
+{
+	for(var i=0; i<this._observers.length; i++)
+	{
+		this._observers[i].update(arg);
+	}
+}
 
 }

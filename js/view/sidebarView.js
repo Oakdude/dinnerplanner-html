@@ -1,7 +1,6 @@
 
 var SidebarView = function (container, model) {
 
-	
 	var addedDishes = container.find("#sidebarTable");
 	var cost = container.find("#sidebarTotalCost");
 	var numGuests = container.find("#numberOfGuests");
@@ -19,5 +18,18 @@ var SidebarView = function (container, model) {
 
 	people.append('<div class="form-group-md"><label for="numberOfGuests">People</label><input id="numberOfGuests" class="input-sm" type="number" value="' + b + '"></div>');
 
+this.update = function() {
+    loadSidebar();
+  }
 
+this.show = function() {
+      container.show();
+
+  }
+
+  this.hide = function() {
+      container.hide();
+  }
+
+model.addObserver(this);
 }

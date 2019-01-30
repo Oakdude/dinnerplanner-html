@@ -1,9 +1,9 @@
 
-var View6 = function (container, model) {
+var PrintoutView = function (container, model) {
 
    var printout = container.find("#printout");
 
-
+var loadDishes = function() {
 	var allDishesArr = model.getFullMenu();
 	 for(dish of allDishesArr){
      var img = dish.image;
@@ -16,8 +16,21 @@ var View6 = function (container, model) {
 
      printout.append('<div id="row" class="container-fluid"><div class="img col-md-2"><img src="images/' + img + '"></div><div id="desc" class="col-md-4"><h2>' + title + '</h2><p>' + desc + '</p></div><div id="prepare" class="col-md-5"><h3>Preparations</h3>' + preperationP + '</div></div>');
 
-
+   }
 	}
+  
+this.update = function() {
+  loadDishes();
+}
 
+this.show = function() {
+    container.show();
 
+}
+
+this.hide = function() {
+    container.hide();
+}
+loadDishes();
+model.addObserver(this);
 }
