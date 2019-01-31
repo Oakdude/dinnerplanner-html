@@ -5,7 +5,7 @@ var DinnerModel = function() {
 	// and selected dishes for the dinner menu
 	var numberOfGuests = 2;
 	var observers = [];
-	var clickedDish = 0;
+	var selectedDish = 0; //vårdan model är smartare
 
 	this.addObserver = function(observer){
 		observers.push(observer);
@@ -20,13 +20,13 @@ var DinnerModel = function() {
 	}
 
 
-	this.setClickedDish = function(id) {
-		clickedDish = id;
-		this.notifyObservers();
+	this.setSelectedDish = function(id, arg) {
+		selectedDish = id;
+		this.notifyObservers(arg);
 	}
-	
-	this.getClickedDish = function(){
-		return clickedDish;
+
+	this.getSelectedDish2 = function(){
+		return selectedDish;
 	}
 
 
@@ -232,7 +232,7 @@ var DinnerModel = function() {
          }
       }
     menu.push(this.getDish(id));
-		this.notifyObservers();
+		this.notifyObservers("dishAddedToMenu");
     }
 
 
@@ -249,20 +249,23 @@ var DinnerModel = function() {
 	//if you don't pass any filter all the dishes will be returned
 	this.getAllDishes = function (type,filter) {
 	  return dishes.filter(function(dish) {
-		var found = true;
-		if(filter){
-			found = false;
-			dish.ingredients.forEach(function(ingredient) {
-				if(ingredient.name.indexOf(filter)!=-1) {
-					found = true;
-				}
-			});
+			var found = true;
+			if(filter){
+				found = false;
+				dish.ingredients.forEach(function(ingredient) {
+					if(ingredient.name.indexOf(filter)!=-1) {
+						found = true;
+					}
+				});
 			if(dish.name.indexOf(filter) != -1)
 			{
 				found = true;
 			}
 		}
-	  	return dish.type == type && found;
+			if (type=="All types"){
+			return true && found;
+		}else{
+	  	return dish.type == type && found;}
 	  });
 	}
 

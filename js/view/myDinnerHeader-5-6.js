@@ -1,4 +1,3 @@
-
 var MyDinnerHeader = function (container, model) {
 
    this.guestsNum = container.find("#guestsView5-6");

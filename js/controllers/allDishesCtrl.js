@@ -11,9 +11,9 @@ var AllDishesCtrl = function(view,model) {
    	evt.preventDefault();
    }
 
-    });*/
+    });
 
-/*view.searchBtn.on("click", function(){
+view.searchBtn.on("click", function(){
     console.log("clicked")
     var searchDish = view.searchInput.val();
 
@@ -21,33 +21,40 @@ var AllDishesCtrl = function(view,model) {
         view.update(matchedDishes);
 
 
-});*/
+});
+*/
+view.searchBtn.click(function(event){
 
-view.searchBtn.click(function(){
-  console.log("clicked")
+    event.preventDefault();
     var searchDish = view.searchInput.val();
+    var matchedDishes = model.getAllDishes(view.dishTypeSelector.val(), searchDish);
+
+    view.loadDishes(matchedDishes);
   });
 
 view.dishTypeSelector.on("change", function(){
 
         if(view.dishTypeSelector.val()=="All types"){
+
           noFilter = model.getLiterallyAllDishes();
-          
-          view.update(noFilter);
+
+          view.loadDishes(noFilter);
         }
         else {
         var type = view.dishTypeSelector.val();
-        dishesSpecialType = model.getAllDishes(type, "");
-        view.update(dishesSpecialType);
+        var dishesSpecialType = model.getAllDishes(type, "");
+
+        view.loadDishes(dishesSpecialType);
       }
+
 });
 
 
 view.dishSelector.click(function(event){
+  //event.preventDefault();
   var dishId = event.target.dataset.dishid;
-  console.log("hiasdasd");
-  model.setClickedDish(dishId);
-  console.log(model.getClickedDish());
+  model.setSelectedDish(dishId, "changedSelectedDish");
+  //event.preventDefault();
 	window.showView("dishDetailsView");
 
 });

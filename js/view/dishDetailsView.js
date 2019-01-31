@@ -9,11 +9,12 @@ var DishDetailsView = function (container, model) {
    var ingredientsViewCost = container.find("#ingredientsViewCost");
    var ingredientsPeople = container.find("#ingredientsPeople");
    this.backBtn = container.find("#backToMainButton");
+   this.addToMenuBtn = container.find("#addToMenuButton");
 
 var loadDishDetails = function() {
-  var selectdish = model.getClickedDish();
-  console.log(selectdish);
-  var dish = model.getDish(selectdish);
+  var selectdish1 = model.getSelectedDish2();
+
+  var dish = model.getDish(selectdish1);
   var img = dish.image;
   var title = dish.name;
   var desc = dish.description;
@@ -21,7 +22,7 @@ var loadDishDetails = function() {
   dishImg.html('<img src="images/' + img + '" alt="Dish"/>');
   dishDetailsText.html(desc);
 
-  var dishIngredients = model.getDishIngredients(selectdish);
+  var dishIngredients = model.getDishIngredients(selectdish1);
   var totCost = 0;
   var p = model.getNumberOfGuests();
   tableBody.html("");
@@ -42,9 +43,11 @@ var loadDishDetails = function() {
 
 
 
-this.update = function() {
+this.update = function(arg) {
+  if(arg == "changedSelectedDish"){
       loadDishDetails();
     }
+  }
 
 this.show = function() {
     container.show();
@@ -55,6 +58,7 @@ this.hide = function() {
 }
 
 model.addObserver(this);
+
 
 
 }
