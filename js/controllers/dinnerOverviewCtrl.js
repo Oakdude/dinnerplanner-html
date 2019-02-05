@@ -1,5 +1,7 @@
-var DinnerOverviewCtrl = function(view,model) {
+var DinnerOverviewCtrl = function(view,model, app) {
+
   view.recipeBtn.click(function(){
-    window.showView("printoutView");
+    app.showView("printoutView");
   });
+  
 }

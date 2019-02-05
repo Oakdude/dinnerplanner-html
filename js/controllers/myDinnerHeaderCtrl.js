@@ -1,10 +1,7 @@
-var MyDinnerHeaderCtrl = function(view,model) {
+var MyDinnerHeaderCtrl = function(view, model, app) {
+	
   view.backBtn2.click(function(){
-    window.showView("selectDishView");
+    app.showView("selectDishView");
   });
-
-
-
-
 
 }

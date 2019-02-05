@@ -17,14 +17,14 @@
     	</div>
   	</div>
 
-    <!-- end of welcome -->
+    
   	<div id="mainContainer" class="container-fluid">
       <div id="mainRow" class="row">
 
-        <div id="welcomeDiv">
-        <!-- welcome -->
-        <!-- end of welcome view -->
-        </div>
+        <div id="welcomeDiv"><!-- welcome -->
+       
+   
+        </div><!-- end of welcome view -->
 
         <div id="sidebar" class="col-md-2 sidebar"> <!-- sidebar absolute/fixed för olika bra-->
           <nav class="navbar navbar-default">
@@ -47,12 +47,17 @@
             <div class="collapse navbar-collapse" id="myDinnerCollapse1">
 
               <div class="col-xs-12">
-                <form id="people" class="navbar-form">
-                  <!--<div class="form-group-md">
+                <div id="people">
+                  People:<span id="numberOfGuests"></span>
+                  <button id="minusGuest" class="btn"><span class="glyphicon glyphicon-minus"></span></button>
+                  <button id="plusGuest" class="btn"><span class="glyphicon glyphicon-plus"></span></button>
+                </div>
+                <!--<form id="people" class="navbar-form">
+                  <div class="form-group-md">
                     <label for="numberOfGuests">People</label>
                     <input id="numberOfGuests" class="input-sm" type="number" value="0" placeholder="0">
-                  </div>-->
-                </form>
+                  </div>
+                </form>-->
               </div>
 
               <div>
@@ -138,7 +143,7 @@
                       </tbody>
                     </table>
                   <div>
-                    <button id=addToMenuButton type="button" class="btn btn-md"><span>Add/Remove</span></button>
+                    <button id=addToMenuButton type="button" class="btn btn-md"><span>Add dish to menu</span></button>
                     <div id="ingredientsViewCost" class="text-right totalCost">
 
                     </div>
@@ -158,7 +163,7 @@
 
         <!-- view 5 and 6 header -->
         <div id="dinnerOverviewHeader" class="col-md-12">
-          <div id="guestsView5-6" class="col-xs-4" style="min-width: 160px">
+          <div id="guestsView5and6" class="col-xs-4" style="min-width: 160px">
 
           </div>
           <div class="float-right">
@@ -173,6 +178,11 @@
           <div id="gallery" class="container placeholders">
 
           </div>
+
+          <div id="dinnerCost" class="container text-center">
+
+          </div>
+
 
           <div class="text-center">
               <button id="recipeBtn" class="btn">Print Full Recipe</button>
@@ -205,19 +215,20 @@
 
     <script src="js/view/welcomeView.js"></script>
     <script src="js/view/sidebarView.js"></script>
+    <script src="js/view/myDinnerHeader.js"></script>
     <script src="js/view/dishDetailsView.js"></script>
-    <script src="js/view/dinnerOverview.js"></script>
     <script src="js/view/dinnerPrintout.js"></script>
+    <script src="js/view/dinnerOverview.js"></script>
     <script src="js/view/allDishesView.js"></script>
-    <script src="js/view/myDinnerHeader-5-6.js"></script>
+    
 
     <script src="js/controllers/welcomeCtrl.js"></script>
     <script src="js/controllers/sidebarCtrl.js"></script>
-    <script src="js/controllers/allDishesCtrl.js"></script>
-    <script src="js/controllers/dishDetailsCtrl.js"></script>
     <script src="js/controllers/myDinnerHeaderCtrl.js"></script>
-    <script src="js/controllers/printoutCtrl.js"></script>
+    <script src="js/controllers/dishDetailsCtrl.js"></script>
+    <script src="js/controllers/dinnerPrintoutCtrl.js"></script>
     <script src="js/controllers/dinnerOverviewCtrl.js"></script>
+    <script src="js/controllers/allDishesCtrl.js"></script>
 
     <script src="js/app.js"></script>
 

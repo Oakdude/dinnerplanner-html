@@ -1,14 +1,12 @@
-var DishDetailsCtrl = function(view,model) {
+var DishDetailsCtrl = function(view, model, app) {
 
   view.backBtn.click(function(){
-
-  	window.showView("selectDishView");
+  	app.showView("selectDishView");
   });
 
   view.addToMenuBtn.click(function(){
     var dishId = model.getSelectedDish2();
     model.addDishToMenu(dishId);
-
   });
 
 }

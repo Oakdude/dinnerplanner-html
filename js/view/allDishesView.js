@@ -8,33 +8,39 @@ var AllDishesView = function (container, model) {
     this.dishSelector = container.find(".dishSelector"); //dish to be clicked on
 
     this.gallery = gallery;
-    //this.index = document.getElementById("dishTypeSelector").selectedIndex;
-    //console.log(this.index);
 
-
-    //var allDishesArr = model.getLiterallyAllDishes();
-    this.loadDishes = function(dishes) {
+    this.loadDishes = function() {
         gallery.html("");
+
+        var type = this.dishTypeSelector.val();
+        var search = this.searchInput.val().toLowerCase();
+        var dishes = model.getAllDishes(type, search);
 
         for(dish of dishes){
             var img = dish.image;
             var title = dish.name;
             var id = dish.id;
-
-            gallery.append('<div data-dishid="' + id + '" class="col-xs-6 col-sm-5 col-md-4 col-lg-3 placeholder dishSelector"><img class="no-pointer" src="images/' + img + '" alt="bild"><div class="no-pointer"><h4>' + title + '</h4></div></div>');
+        
+            gallery.append('<div id="' 
+                + id 
+                + '" class="col-xs-12 col-sm-6 col-md-4 col-lg-3 placeholder dishSelector"><img class="no-pointer" src="images/' 
+                + img 
+                + '" alt="bild"><div class="no-pointer"><h4>' 
+                + title 
+                + '</h4></div></div>'); // data-dishid="' + id
+                
         }
-        this.gallery = gallery;
-        this.dishSelector = container.find(".dishSelector"); //dish to be clicked on
     }
 
-
     this.update = function(arg) {
-      if(arg == "changedSelectedDish"){
-        return;
-      }else if(arg == "dishAddedToMenu"){
-        return;
-      }
-      loadDishes();
+        if(arg == "load"){
+            this.loadDishes();
+        } else if(arg == "filterDishes"){
+            this.loadDishes();
+        }
+        else {
+            return;
+        }
     }
 
     this.show = function() {
@@ -46,8 +52,6 @@ var AllDishesView = function (container, model) {
     }
 
     model.addObserver(this);
-    this.loadDishes(model.getLiterallyAllDishes());
-
-
+    this.update("load");
 
 }

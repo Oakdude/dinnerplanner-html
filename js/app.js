@@ -1,101 +1,68 @@
 $(function() {
-	//We instantiate our model
+
 	var model = new DinnerModel();
-	// And create the instance of ExampleView
-	//var exampleView = new ExampleView($("#sidebar"), model);
-	//var welcomeView = new WelcomeView($("#mainContainer"), model);
+
 	var welcomeView = new WelcomeView($("#welcomeDiv"), model);
-	var welcomeCtrl = new WelcomeCtrl(welcomeView, model);
+	var welcomeCtrl = new WelcomeCtrl(welcomeView, model, this);
 
 	var sidebarView = new SidebarView($("#sidebar"), model);
-	var sidebarCtrl = new SidebarCtrl(sidebarView, model);
+	var sidebarCtrl = new SidebarCtrl(sidebarView, model, this);
 
 	var allDishesView = new AllDishesView($("#dashboard"), model);
-	var allDishesCtrl = new AllDishesCtrl(allDishesView, model);
+	var allDishesCtrl = new AllDishesCtrl(allDishesView, model, this);
 
 	var dishDetailsView = new DishDetailsView($("#view3"), model);
-	var dishDetailsCtrl = new DishDetailsCtrl(dishDetailsView, model);
+	var dishDetailsCtrl = new DishDetailsCtrl(dishDetailsView, model, this);
 
 	var myDinnerHeader = new MyDinnerHeader($("#dinnerOverviewHeader"), model);
-	var myDinnerHeaderCtrl = new MyDinnerHeaderCtrl(myDinnerHeader, model);
+	var myDinnerHeaderCtrl = new MyDinnerHeaderCtrl(myDinnerHeader, model, this);
 
 	var printoutView = new PrintoutView($("#view6"), model);
-	var printoutCtrl = new PrintoutCtrl(printoutView, model);
+	var printoutCtrl = new PrintoutCtrl(printoutView, model, this);
 
   	var dinnerOverviewView = new DinnerOverviewView($("#myDinnerView"), model);
-	var dinnerOverviewCtrl = new DinnerOverviewCtrl(dinnerOverviewView, model);
+	var dinnerOverviewCtrl = new DinnerOverviewCtrl(dinnerOverviewView, model, this);
 
+	var hideAllViews = function(){
+		welcomeView.hide();
+		sidebarView.hide();
+		allDishesView.hide();
+		dishDetailsView.hide();
+		myDinnerHeader.hide();
+		printoutView.hide();
+		dinnerOverviewView.hide();
+	}
 
-	window.showView = function(view) {
+	this.showView = function(view) {
+		hideAllViews();
+
 		if (view == "welcomeView"){
 			welcomeView.show();
-			sidebarView.hide();
-			allDishesView.hide();
-			dishDetailsView.hide();
-			myDinnerHeader.hide();
-			printoutView.hide();
-			dinnerOverviewView.hide();
-
 		}
+
 		if (view == "selectDishView"){
-			welcomeView.hide();
 			sidebarView.show();
 			allDishesView.show();
-			dishDetailsView.hide();
-			myDinnerHeader.hide();
-			printoutView.hide();
-			dinnerOverviewView.hide();
 		}
+
 		if (view == "dishDetailsView"){
-			welcomeView.hide();
 			sidebarView.show();
-			allDishesView.hide();
 			dishDetailsView.show();
-			myDinnerHeader.hide();
-			printoutView.hide();
-			dinnerOverviewView.hide();
 		}
+
 		if (view == "dinnerOverviewView"){
-			welcomeView.hide();
-			sidebarView.hide();
-			allDishesView.hide();
-			dishDetailsView.hide();
 			myDinnerHeader.show();
-			printoutView.hide();
 			dinnerOverviewView.show();
 		}
+
 		if (view == "printoutView"){
-			welcomeView.hide();
-			sidebarView.hide();
-			allDishesView.hide();
-			dishDetailsView.hide();
 			myDinnerHeader.show();
 			printoutView.show();
-			dinnerOverviewView.hide();
 		}
 
-
-
 	}
-	showView("welcomeView");
 
-	//$("#sidebar").hide();
-	//$("#dashboard").hide();
-	//$("#view3").hide();
-	//$("#dinnerOverviewHeader").hide();
-	//$("#view6").hide();
-	//$("#myDinnerView").hide();
+	this.showView("welcomeView");
 
-
-
-
-
-
-	/**
-	 * IMPORTANT: app.js is the only place where you are allowed to
-	 * use the $('someSelector') to search for elements in the whole HTML.
-	 * In other places you should limit the search only to the children
-	 * of the specific view you're working with (see exampleView.js).
-	 */
 
 });

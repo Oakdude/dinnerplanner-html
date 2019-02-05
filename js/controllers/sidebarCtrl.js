@@ -1,13 +1,19 @@
-var SidebarCtrl = function(view,model) {
+var SidebarCtrl = function(view, model, app) {
+
   view.confirmBtn.click(function(){
-    window.showView("dinnerOverviewView");
-
+    app.showView("dinnerOverviewView");
   });
 
-  view.inputGuests.on("click", function(){
-    var num = view.inputGuests.val();
-    console.log(num);
-    model.setNumberOfGuests(num);
-
+  view.plusButton.click(function(){
+    model.setNumberOfGuests(model.getNumberOfGuests() + 1);
   });
+
+  view.minusButton.click(function(){
+  	if(model.getNumberOfGuests() === 0){
+  		return;
+  	}else{
+    	model.setNumberOfGuests(model.getNumberOfGuests() - 1);
+    }
+  });
+
 }

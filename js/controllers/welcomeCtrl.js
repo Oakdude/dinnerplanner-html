@@ -1,15 +1,10 @@
-var WelcomeCtrl = function(view, model) {
+var WelcomeCtrl = function(view, model, app) {
 
 	view.welcomeNewDinnerBtn.click(function(){
-        window.showView("selectDishView");
+        app.showView("selectDishView");
     
 });
 
 }
-    /*var listener= function(evt){
-      alert(evt.type+' event on "'+evt.target.innerHTML+'"');
-      evt.preventDefault();
-    }
-    document.getElementById("createNewDinnerBtn").addEventListener("click", listener , false);
-*/
+
 
