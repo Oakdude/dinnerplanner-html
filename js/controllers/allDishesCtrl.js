@@ -16,7 +16,6 @@ view.dishTypeSelector.on("change", function(){
 view.gallery.on("click", ".dishSelector", function(){
 
         var dishId = $(this).attr("id");
-        console.log(dishId);
         model.setSelectedDish(dishId);
         app.showView("dishDetailsView");
 

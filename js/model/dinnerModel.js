@@ -172,6 +172,18 @@ var DinnerModel = function() {
 	  });
 	}
 
+/*
+	//new lab 3 get dish from api
+	this.getAllDishes = function (type, filter) {
+	  return fetch(https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/search,{ 
+	            headers:{   
+	                'X-Mashape-Key': "3d2a031b4cmsh5cd4e7b939ada54p19f679jsn9a775627d767"
+	            }
+	      }).then(response => response.json())
+	        .then(data => data.results)
+	} 
+*/
+
 	//function that returns a dish of specific ID
 	this.getDish = function (id) {
 	  for(key in dishes){
@@ -181,9 +193,71 @@ var DinnerModel = function() {
 		}
 	}
 
-	this.getLiterallyAllDishes = function() {
-		return dishes;
+	//testing api fetch ajax thing
+	this.fetchAllDishes = function() {
+		var test = fetch("https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/search",{ 
+	            headers:{   
+	                "X-Mashape-Key": "3d2a031b4cmsh5cd4e7b939ada54p19f679jsn9a775627d767"
+	            }
+	      }).then(response => response.json())
+	        .then(data => data.results)
 	}
+
+	this.something = function(){
+		var data = "";
+		this.fetchAllDishes()
+		.then(dishes =>{
+			let a = "";
+			for(object of dishes){
+		        		a += `
+		        			${object.title}
+		        		`;
+		        	}
+		    data = a;  
+		})
+		.catch(error => {
+     		console.log(error);
+		});
+		console.log(data);
+	}
+/*
+	//working
+	this.fetchAllDishes = function() {
+		var test = fetch("https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/search",{ 
+	            headers:{   
+	                "X-Mashape-Key": "3d2a031b4cmsh5cd4e7b939ada54p19f679jsn9a775627d767"
+	            }
+	      }).then(response => response.json())
+	        .then(data => {
+	        	let a = "";
+	        	for(object of data.results){
+	        		a += `
+	        			${object.title}
+	        		`;
+	        	}
+	        	console.log(a);
+	        })
+	}
+
+//from postman code
+
+var settings = {
+  "async": true,
+  "crossDomain": true,
+  "url": "https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/search?X-Mashape-Key=3d2a031b4cmsh5cd4e7b939ada54p19f679jsn9a775627d767",
+  "method": "GET",
+  "headers": {
+    "X-Mashape-Key": "3d2a031b4cmsh5cd4e7b939ada54p19f679jsn9a775627d767",
+    "cache-control": "no-cache",
+    "Postman-Token": "a8e9c6a2-12d0-4fc4-8bb5-5ab4d41801e0"
+  }
+}
+
+$.ajax(settings).done(function (response) {
+  console.log(response);
+});
+*/
+
 
 
 	// the dishes variable contains an array of all the
