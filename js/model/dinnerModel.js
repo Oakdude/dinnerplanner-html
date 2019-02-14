@@ -12,8 +12,7 @@ var DinnerModel = function() {
 		observers.push(observer);
 	}
 
-	this.notifyObservers = function(arg)
-	{
+	this.notifyObservers = function(arg){
 		for(var i=0; i<observers.length; i++)
 		{
 			observers[i].update(arg);
@@ -59,6 +58,7 @@ var DinnerModel = function() {
 	}
 
 	//Returns all ingredients for all the dishes on the menu.
+	
   this.getAllIngredients = function() {
 		//TODO Lab 1
     var fullIngredients=[];
@@ -74,43 +74,37 @@ var DinnerModel = function() {
 	//Returns the total price of the menu (all the ingredients multiplied by number of guests).
   //Returns the total price of the menu (all the ingredients multiplied by number of guests).
 	this.getTotalMenuPrice = function () {
-        var priceMenu = 0;
-        var ingredients = this.getAllIngredients();
-        for (var i =0; i<ingredients.length; i++) {
-            priceMenu += ingredients[i].price;
-        }
-				var a = this.getNumberOfGuests();
-        return priceMenu*a;
+		var menuPrice = 0;
+		for (dish of menu) {
+			menuPrice += dish.pricePerServing;
+		}
+		var a = this.getNumberOfGuests();
+        return menuPrice*a;
 }
 
 	this.getDishIngredients = function(id) {
 		var dishIngredients=[];
-    for (dish of dishes) {
-      if(dish.id == id){
-	      for (ingredient of dish.ingredients){
-	        dishIngredients.push(ingredient);
-	      }
-    	}
-		}
-    return dishIngredients;
+		this.fetchDish(id).then(dish=>{
+			for(ingredient of dish.extendedIngredients){
+				dishIngredients.push(ingredient);
 
-}
+			}
+			
+		});
+		return dishIngredients;
+	}
+
 	this.getDishCost = function(id) {
-		var dishIngredients = this.getDishIngredients(id);
-		var dishCost = 0;
-		for(ingredient of dishIngredients){
-
-			dishCost += ingredient.price;
-		}
+		this.fetchDish(id).then(dish =>{
+		var dishCost = dish.pricePerServing;
 		return dishCost;
+		});
 	}
 
 	this.getMenuNameAndCost = function() {
-	var fullMenu = this.getFullMenu();
 	var menuNameAndCost = [];
-	for(var dish of fullMenu){
-		var price = this.getDishCost(dish.id);
-		menuNameAndCost.push([dish.name, price]);
+	for(var dish of menu){
+		menuNameAndCost.push([dish.title, dish.pricePerServing]);
 	}
 	return menuNameAndCost;
 	}
@@ -119,14 +113,17 @@ var DinnerModel = function() {
 	//it is removed from the menu and the new one added.
   this.addDishToMenu = function(id) {
 		//TODO Lab 1      Funkar kanske inte korrekt? vissa element verkar inte läggas till i menu
-    for (dish of menu){
+    /*for (dish of menu){
       if(dish.type==this.getDish(id).type){
          this.removeDishFromMenu(dish.id);
          dish==this.getDish(id);
          }
-      }
-    menu.push(this.getDish(id));
-		this.notifyObservers("dishAddedToMenu");
+      }*/
+    this.fetchDish(id).then(dish => {
+    		menu.push(dish);
+    		this.notifyObservers("dishAddedToMenu");
+    	});
+		
     }
 
 
@@ -173,18 +170,6 @@ var DinnerModel = function() {
 	}
 
 /*
-	//new lab 3 get dish from api
-	this.getAllDishes = function (type, filter) {
-	  return fetch(https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/search,{ 
-	            headers:{   
-	                'X-Mashape-Key': "3d2a031b4cmsh5cd4e7b939ada54p19f679jsn9a775627d767"
-	            }
-	      }).then(response => response.json())
-	        .then(data => data.results)
-	} 
-*/
-
-	//function that returns a dish of specific ID
 	this.getDish = function (id) {
 	  for(key in dishes){
 			if(dishes[key].id == id) {
@@ -192,15 +177,51 @@ var DinnerModel = function() {
 			}
 		}
 	}
+*/
 
-	//testing api fetch ajax thing
-	this.fetchAllDishes = function() {
-		var test = fetch("https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/search",{ 
-	            headers:{   
+	//function that returns a dish of specific ID
+	this.getDish = function (id) {
+	  this.fetchDish(id).then(dish =>{
+	  	console.log(dish);
+	  	return dish;
+	  });
+	  
+	}
+
+	this.fetchDishSummary = function (id) {
+		//var url = "http://sunset.nada.kth.se:8080/iprog/group/33/recipes/informationBulk?ids=" + id;
+		var url = "http://sunset.nada.kth.se:8080/iprog/group/33/recipes/" + id + "/summary";
+		return fetch(url,{
+	            headers:{
 	                "X-Mashape-Key": "3d2a031b4cmsh5cd4e7b939ada54p19f679jsn9a775627d767"
 	            }
-	      }).then(response => response.json())
-	        .then(data => data.results)
+	      }).then(handleHTTPError)
+					.then(response => response.json())
+	        .then(data => data);
+	}
+
+	this.fetchDish = function (id) {
+		var url = "http://sunset.nada.kth.se:8080/iprog/group/33/recipes/informationBulk?ids=" + id;
+		//var url = "http://sunset.nada.kth.se:8080/iprog/group/33/recipes/" + id + "/summary";
+		return fetch(url,{
+	            headers:{
+	                "X-Mashape-Key": "3d2a031b4cmsh5cd4e7b939ada54p19f679jsn9a775627d767"
+	            }
+	      }).then(handleHTTPError)
+					.then(response => response.json())
+	        .then(data => data[0]);
+	}
+	//testing api fetch ajax thing
+
+	this.fetchAllDishes = function(type, filter) {
+		return fetch("http://sunset.nada.kth.se:8080/iprog/group/33/recipes/search",{
+	            headers:{
+	                "X-Mashape-Key": "3d2a031b4cmsh5cd4e7b939ada54p19f679jsn9a775627d767"
+	            }
+	      }).then(handleHTTPError)
+					.then(response => response.json())
+	        .then(data => data.results);
+
 	}
 
 	this.something = function(){
@@ -213,18 +234,19 @@ var DinnerModel = function() {
 		        			${object.title}
 		        		`;
 		        	}
-		    data = a;  
+		    data = a;
 		})
 		.catch(error => {
      		console.log(error);
 		});
 		console.log(data);
 	}
-/*
+
 	//working
-	this.fetchAllDishes = function() {
-		var test = fetch("https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/search",{ 
-	            headers:{   
+	this.fetchAllDishes1 = function() {
+
+		var test = fetch("http://sunset.nada.kth.se:8080/iprog/group/33/recipes/search",{
+	            headers:{
 	                "X-Mashape-Key": "3d2a031b4cmsh5cd4e7b939ada54p19f679jsn9a775627d767"
 	            }
 	      }).then(response => response.json())
@@ -239,6 +261,13 @@ var DinnerModel = function() {
 	        })
 	}
 
+	function handleHTTPError(response) {
+  if(response.ok)
+     return response;
+  throw Error(response.statusText);
+}
+
+/*
 //from postman code
 
 var settings = {

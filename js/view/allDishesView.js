@@ -14,22 +14,28 @@ var AllDishesView = function (container, model) {
 
         var type = this.dishTypeSelector.val();
         var search = this.searchInput.val().toLowerCase();
-        var dishes = model.getAllDishes(type, search);
+        gallery.html("<div class='container loader'></div>");
+        model.fetchAllDishes(type, search).then(dishes => {
+          gallery.html("");
+          for(dish of dishes){
+              var img = dish.image;
+              var title = dish.title;
+              var id = dish.id;
 
-        for(dish of dishes){
-            var img = dish.image;
-            var title = dish.name;
-            var id = dish.id;
-        
-            gallery.append('<div id="' 
-                + id 
-                + '" class="col-xs-12 col-sm-6 col-md-4 col-lg-3 placeholder dishSelector"><img class="no-pointer" src="images/' 
-                + img 
-                + '" alt="bild"><div class="no-pointer"><h4>' 
-                + title 
-                + '</h4></div></div>'); // data-dishid="' + id
-                
-        }
+              gallery.append('<div id="'
+                  + id
+                  + '" class="col-xs-12 col-sm-6 col-md-4 col-lg-3 placeholder dishSelector"><img class="no-pointer" src="https://spoonacular.com/recipeImages/'
+                  + img
+                  + '" alt="bild"><div class="no-pointer"><h4>'
+                  + title
+                  + '</h4></div></div>'); // data-dishid="' + id
+          }
+        }).catch(error =>{
+          console.log(error);
+        });
+
+
+
     }
 
     this.update = function(arg) {

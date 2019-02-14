@@ -15,11 +15,13 @@ var SidebarView = function (container, model) {
 var loadSidebar = function() {
 	var a = model.getNumberOfGuests();
 	var dishesArr = model.getMenuNameAndCost();
-	var tCost = model.getTotalMenuPrice();
+	console.log(dishesArr);
+	var tCost = model.getTotalMenuPrice().toFixed(2);
+	console.log(tCost);
 	addedDishesTable.html("");
 
 	for(dish of dishesArr){
-		addedDishesTable.append("<tr><th>" + dish[0] + "</th>" + "<th>" + dish[1]*a + "</th></tr>");
+		addedDishesTable.append("<tr><th>" + dish[0] + "</th>" + "<th>" + (dish[1]*a).toFixed(2) + "</th></tr>");
 	}
 
 	cost.html("SEK " + tCost);
@@ -33,12 +35,19 @@ var loadSidebar = function() {
 	
 }
 
-this.update = function() {
-    loadSidebar();
+this.update = function(arg) {
+    if(arg == "numberOfGuestsChanged"){
+    	loadSidebar();
+    }else if (arg == "dishAddedToMenu"){
+    	loadSidebar();
+    }else{
+    	return;
+    }
   }
 
 this.show = function() {
       container.show();
+
   }
 
   this.hide = function() {
@@ -46,6 +55,6 @@ this.show = function() {
   }
 
 model.addObserver(this);
-this.update();
+loadSidebar();
 
 }

@@ -1,5 +1,4 @@
 var DishDetailsCtrl = function(view, model, app) {
-
   view.backBtn.click(function(){
   	app.showView("selectDishView");
   });

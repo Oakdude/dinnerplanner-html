@@ -17,13 +17,13 @@
     	</div>
   	</div>
 
-    
+
   	<div id="mainContainer" class="container-fluid">
       <div id="mainRow" class="row">
 
         <div id="welcomeDiv"><!-- welcome -->
-       
-   
+
+
         </div><!-- end of welcome view -->
 
         <div id="sidebar" class="col-md-2 sidebar"> <!-- sidebar absolute/fixed för olika bra-->
@@ -117,7 +117,7 @@
 
         <!-- Dish detals view -->
         <div id="view3" class="col-sm-10 col-sm-offset-2 main">
-
+          <div id="loaderDiv" class="container"></div>
           <div id="dishDetails" class="col-md-12">
 
             <div class="col-md-4 text-left">
@@ -125,7 +125,7 @@
              <div id="dishImg">
 
              </div>
-             <p id="dishDetailsText"></p>
+             <p id="dishSummaryDiv">No summary for dish</p>
              <button id="backToMainButton" type="button" class="btn btn-md"><span>Back to search</span></button>
             </div>
 
@@ -154,9 +154,9 @@
             <div id="preperationsCol" class="col-md-12 text-left">
               <h1><b>Preperations</b></h1>
               <div>
-                <p>hur man lagar maten osv
-              </p>
-            </div>
+                <p id="instructionsP">
+                </p>
+              </div>
             </div>
           </div>
         </div> <!-- End of dish detals view -->
@@ -220,7 +220,7 @@
     <script src="js/view/dinnerPrintout.js"></script>
     <script src="js/view/dinnerOverview.js"></script>
     <script src="js/view/allDishesView.js"></script>
-    
+
 
     <script src="js/controllers/welcomeCtrl.js"></script>
     <script src="js/controllers/sidebarCtrl.js"></script>

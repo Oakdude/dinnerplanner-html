@@ -1,66 +1,107 @@
 
 var DishDetailsView = function (container, model) {
-
+   var loaderDiv = container.find("#loaderDiv");
    var dishDetails = container.find("#dishDetails");
+   var preperationPara = container.find("#instructionsP");
    var title1 = container.find("#title");
    var dishImg = container.find("#dishImg");
-   var dishDetailsText = container.find("#dishDetailsText");
+   var dishSummaryDiv = container.find("#dishSummaryDiv");
    var tableBody = container.find("#tableBody");
-   var ingredientsViewCost = container.find("#ingredientsViewCost");
+   var totalDishCost = container.find("#ingredientsViewCost");
    var ingredientsPeople = container.find("#ingredientsPeople");
    this.backBtn = container.find("#backToMainButton");
    this.addToMenuBtn = container.find("#addToMenuButton");
 
+   var promise1;
+   var promise2;
+   var promise3;
+
 var loadDishDetails = function() {
-  var dishId = model.getSelectedDish2();
-
-  var dish = model.getDish(dishId);
-  var img = dish.image;
-  var title = dish.name;
-  var desc = dish.description;
-  title1.html("<b>" + title + "</b>");
-  dishImg.html('<img src="images/' + img + '" alt="Dish"/>');
-  dishDetailsText.html(desc);
-
-  var dishIngredients = model.getDishIngredients(dishId);
-  var totCost = 0;
-  var p = model.getNumberOfGuests();
-  tableBody.html("");
-  for (ingredient of dishIngredients){
-
-    var name = ingredient.name;
-    var price = ingredient.price*p;
-    var quantity = ingredient.quantity*p;
-    var unit = ingredient.unit;
-    totCost += price;
-    tableBody.append("<tr><td>" +  quantity + " " + unit + "</td><td>" + name + "</td><td>SEK</td><td>" + price + "</td></tr>");
-
-  }
-
-  ingredientsViewCost.html("SEK" + " " + totCost);
-  ingredientsPeople.html("<b>Ingredients for " +  p +" people</b>");
-
-  var button = container.find("#addToMenuButton");
   
-  if(model.isDishInMenu(dishId)){
+  tableBody.html("");
+  title1.html("");
+  dishImg.html("");
+  totalDishCost.html("");
+  dishSummaryDiv.html("");
+  preperationPara.html("");
+
+  var dishId = model.getSelectedDish2();
+  var p = model.getNumberOfGuests();
+  model.fetchDish(dishId).then(dish =>{ //promise1
+    var img = dish.image;
+    var title = dish.title;
     
-    button.addClass("disabled");
-    button.html("Dish already in menu")
-  } else {
-    button.removeClass("disabled");
-    button.html("Add dish to menu")
-  }
+    var instructions = dish.instructions;
+    title1.html("<b>" + title + "</b>");
+    dishImg.html('<img src=' + img + ' alt="Dish img"/>');
+
+
+    preperationPara.html(instructions);
+
+  }).catch(error =>{
+          console.log(error);
+  });
+
+  model.fetchDishSummary(dishId).then(dish =>{ //promise2
+
+    var dishSummary = dish.summary;
+    dishSummaryDiv.html(dishSummary);
+  }).catch(error =>{
+          console.log(error);
+  });
+  loadIngredients();
+  loadAddButton();
+}
+
+var loadIngredients = function(){
+  var dishId = model.getSelectedDish2();
+  var p = model.getNumberOfGuests();
+
+  model.fetchDish(dishId).then(dish =>{ //promise3
+    loaderDiv.html("");
+    var dishPrice = dish.pricePerServing;
+    tableBody.html("");
+    for(ingredient of dish.extendedIngredients){
+        var name = ingredient.name;
+        var quantity = ingredient.amount*p;
+        var price = 2*quantity;
+        var unit = ingredient.unit;
+        tableBody.append("<tr><td>" +  quantity + " " + unit + "</td><td>" + name + "</td><td>SEK</td><td>" + price + "</td></tr>");
+      }
+
+    ingredientsPeople.html("<b>Ingredients for " +  p +" people</b>");
+    totalDishCost.html("SEK" + " " + dishPrice*p);
+
+  }).catch(error =>{
+          console.log(error);
+  });
+}
+
+var loadAddButton = function(){
+  var dishId = model.getSelectedDish2();
+  var button = container.find("#addToMenuButton");
+
+    if(model.isDishInMenu(dishId)){
+
+      button.addClass("disabled");
+      button.html("Dish already in menu")
+    } else {
+      button.removeClass("disabled");
+      button.html("Add dish to menu")
+    }
 }
 
 
 
 this.update = function(arg) {
   if(arg == "loadDishDetails"){
+      loaderDiv.html("<div class='container loader'></div>");
       loadDishDetails();
   } else if (arg == "numberOfGuestsChanged"){
-      loadDishDetails();
+      loaderDiv.html("<div class='container loader'></div>");
+      loadIngredients();
   } else if (arg == "dishAddedToMenu"){
-    loadDishDetails();
+    loadAddButton();
   }else {
       return;
   }
@@ -68,8 +109,8 @@ this.update = function(arg) {
 }
 
 this.show = function() {
-    container.show();
-    this.update("loadDishDetails");
+      container.show()    
+      this.update("loadDishDetails");
 }
 
 this.hide = function() {
