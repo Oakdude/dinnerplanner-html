@@ -8,6 +8,7 @@ var DinnerModel = function() {
 	var observers = [];
 	var selectedDish = 0; //vårdan model är smartare
 	var types = ['all','main course', 'side dish', 'dessert', 'appetizer', 'salad', 'bread', 'breakfast', 'soup', 'beverage', 'sauce', 'drink'];
+	var baseURL = "http://sunset.nada.kth.se:8080/iprog/group/33/recipes/";
 
 	this.addObserver = function(observer){
 		observers.push(observer);
@@ -147,6 +148,8 @@ var DinnerModel = function() {
 		}
 		return false;
 	}
+/*
+		OLD FUNCTIONS
 
 	//function that returns all dishes of specific type (i.e. "starter", "main dish" or "dessert")
 	//you can use the filter argument to filter out the dish by name or ingredient (use for search)
@@ -173,7 +176,7 @@ var DinnerModel = function() {
 	  });
 	}
 
-/*
+
 	this.getDish = function (id) {
 	  for(key in dishes){
 			if(dishes[key].id == id) {
@@ -193,25 +196,27 @@ var DinnerModel = function() {
 	}
 
 	this.fetchDishSummary = function (id) {
-		//var url = "http://sunset.nada.kth.se:8080/iprog/group/33/recipes/informationBulk?ids=" + id;
-		var url = "http://sunset.nada.kth.se:8080/iprog/group/33/recipes/" + id + "/summary";
+		var url = baseURL + id + "/summary";
 		return fetch(url,{
 	            headers:{
-	                "X-Mashape-Key": API_KEY
+	                "X-Mashape-Key": API_KEY,
+	                "Access-Control-Allow-Origin" : "http://sunset.nada.kth.se"
 	            }
 	      }).then(handleHTTPError)
-					.then(response => response.json())
+			.then(response => response.json())
 	        .then(data => data);
 	}
 
 	this.fetchDish = function (id) {
-		var url = "http://sunset.nada.kth.se:8080/iprog/group/33/recipes/informationBulk?ids=" + id;
+		var url = baseURL + "informationBulk?ids=" + id;
 		//var url = "http://sunset.nada.kth.se:8080/iprog/group/33/recipes/" + id + "/summary";
 		return fetch(url,{
 	            headers:{
-	                "X-Mashape-Key": API_KEY
+	                "X-Mashape-Key": API_KEY,
+	                "Access-Control-Allow-Origin" : "http://sunset.nada.kth.se"
 	            }
-	      }).then(response => response.json())
+	      }).then(handleHTTPError)
+			.then(response => response.json())
 	        .then(data => data[0]);
 	}
 	//testing api fetch ajax thing
@@ -230,7 +235,7 @@ var DinnerModel = function() {
 		return fetch(queryURL,{
 	            headers:{
 	                "X-Mashape-Key": API_KEY,
-	                "Access-Control-Allow-Origin" : queryURL
+	                "Access-Control-Allow-Origin" : "http://sunset.nada.kth.se" 
 	                
 	            }
 	      }).then(handleHTTPError)
