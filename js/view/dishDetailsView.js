@@ -60,18 +60,18 @@ var loadIngredients = function(){
 
   model.fetchDish(dishId).then(dish =>{ //promise3
     loaderDiv.html("");
-    var dishPrice = dish.pricePerServing;
+    var dishPrice = dish.pricePerServing*p;
     tableBody.html("");
     for(ingredient of dish.extendedIngredients){
         var name = ingredient.name;
         var quantity = ingredient.amount*p;
         var price = 2*quantity;
         var unit = ingredient.unit;
-        tableBody.append("<tr><td>" +  quantity + " " + unit + "</td><td>" + name + "</td><td>SEK</td><td>" + price + "</td></tr>");
+        tableBody.append("<tr><td>" +  quantity.toFixed(2) + " " + unit + "</td><td>" + name + "</td><td>SEK</td><td>" + price.toFixed(2) + "</td></tr>");
       }
 
     ingredientsPeople.html("<b>Ingredients for " +  p +" people</b>");
-    totalDishCost.html("SEK" + " " + dishPrice*p);
+    totalDishCost.html("SEK" + " " + dishPrice.toFixed(2));
 
   }).catch(error =>{
           loaderDiv.html("Failing to load some data, please check your internet connection");
