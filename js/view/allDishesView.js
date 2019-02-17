@@ -2,21 +2,40 @@
 var AllDishesView = function (container, model) {
 
     var gallery = container.find("#gallery");
-    this.dishTypeSelector = container.find("#dishTypeSelector"); //dish to be clicked on
+    var dishTypeSelector = container.find("#dishTypeSelector"); //dish to be clicked on
     this.searchInput = container.find("#searchInput");
     this.searchBtn = container.find("#searchBtn");
     this.dishSelector = container.find(".dishSelector"); //dish to be clicked on
-
+    var types = model.getTypes();
     this.gallery = gallery;
+    this.dishTypeSelector = dishTypeSelector;
+
+    var addTypesToSelector = function(){
+      dishTypeSelector.html("");
+      for(type of types){
+              option = "<option value='"+type+"'>" + type.charAt(0).toUpperCase()+type.slice(1) + "</option>";
+          
+          dishTypeSelector.append(option);
+        }
+    }
 
     this.loadDishes = function() {
         gallery.html("");
 
         var type = this.dishTypeSelector.val();
+        console.log(type);
         var search = this.searchInput.val().toLowerCase();
         gallery.html("<div class='container loader'></div>");
         model.fetchAllDishes(type, search).then(dishes => {
-          gallery.html("");
+          if(dishes.length==0){
+            let typeString ="";
+            if(type!=="all"){
+              typeString = ' with type "' + type + '"';
+            }
+            gallery.html('<b>No matches found for "' + search + '"' + typeString + '.</b>');
+          }else{
+            gallery.html("");
+          }
           for(dish of dishes){
               var img = dish.image;
               var title = dish.title;
@@ -34,14 +53,10 @@ var AllDishesView = function (container, model) {
           console.log(error);
         });
 
-
-
     }
 
     this.update = function(arg) {
-        if(arg == "load"){
-            this.loadDishes();
-        } else if(arg == "filterDishes"){
+        if(arg == "filterDishes"){
             this.loadDishes();
         }
         else {
@@ -58,6 +73,7 @@ var AllDishesView = function (container, model) {
     }
 
     model.addObserver(this);
-    this.update("load");
+    addTypesToSelector();
+    this.loadDishes();
 
 }

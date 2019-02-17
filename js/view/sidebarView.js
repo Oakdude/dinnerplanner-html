@@ -15,9 +15,7 @@ var SidebarView = function (container, model) {
 var loadSidebar = function() {
 	var a = model.getNumberOfGuests();
 	var dishesArr = model.getMenuNameAndCost();
-	console.log(dishesArr);
 	var tCost = model.getTotalMenuPrice().toFixed(2);
-	console.log(tCost);
 	addedDishesTable.html("");
 
 	for(dish of dishesArr){

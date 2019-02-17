@@ -40,6 +40,7 @@ var loadDishDetails = function() {
 
   }).catch(error =>{
           console.log(error);
+          this.update("error");
   });
 
   model.fetchDishSummary(dishId).then(dish =>{ //promise2
@@ -73,7 +74,9 @@ var loadIngredients = function(){
     totalDishCost.html("SEK" + " " + dishPrice*p);
 
   }).catch(error =>{
+          loaderDiv.html("Failing to load some data, please check your internet connection");
           console.log(error);
+          
   });
 }
 
@@ -102,8 +105,11 @@ this.update = function(arg) {
       loadIngredients();
   } else if (arg == "dishAddedToMenu"){
     loadAddButton();
-  }else {
-      return;
+  } else if(arg == "error"){
+      console.log("yeah");
+      loaderDiv.html("");
+  } else {
+     return;
   }
 
 }

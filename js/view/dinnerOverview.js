@@ -8,7 +8,6 @@ var DinnerOverviewView = function (container, model) {
    var loadDishes = function() {
     gallery.html("");
     var allDishesArr = model.getFullMenu();
-    console.log(allDishesArr);
     for(dish of allDishesArr){
       var img = dish.image;
       var title = dish.title;
@@ -31,6 +30,5 @@ var DinnerOverviewView = function (container, model) {
       container.hide();
   }
 
-  loadDishes();
 
 }
