@@ -12,12 +12,13 @@ var DishDetailsView = function (container, model) {
    this.backBtn = container.find("#backToMainButton");
    this.addToMenuBtn = container.find("#addToMenuButton");
 
-   var promise1;
-   var promise2;
-   var promise3;
+   var dishId;
+   var p;
+   var dishPrice = 0;
+   var ingredients = [];
 
 var loadDishDetails = function() {
-  
+
   tableBody.html("");
   title1.html("");
   dishImg.html("");
@@ -30,13 +31,17 @@ var loadDishDetails = function() {
   model.fetchDish(dishId).then(dish =>{ //promise1
     var img = dish.image;
     var title = dish.title;
-    
+    dishPrice = dish.pricePerServing*p;
+    console.log(dishPrice);
     var instructions = dish.instructions;
     title1.html("<b>" + title + "</b>");
     dishImg.html('<img src=' + img + ' alt="Dish img"/>');
-
-
     preperationPara.html(instructions);
+
+    for(ingredient of dish.extendedIngredients){
+
+        ingredients.push(ingredient);
+      }
 
   }).catch(error =>{
           console.log(error);
@@ -44,25 +49,24 @@ var loadDishDetails = function() {
   });
 
   model.fetchDishSummary(dishId).then(dish =>{ //promise2
-
+    loaderDiv.html("");
     var dishSummary = dish.summary;
     dishSummaryDiv.html(dishSummary);
+    loadIngredients();
+    loadAddButton();
   }).catch(error =>{
           console.log(error);
   });
-  loadIngredients();
-  loadAddButton();
+
 }
 
 var loadIngredients = function(){
   var dishId = model.getSelectedDish2();
   var p = model.getNumberOfGuests();
 
-  model.fetchDish(dishId).then(dish =>{ //promise3
-    loaderDiv.html("");
-    var dishPrice = dish.pricePerServing*p;
+
     tableBody.html("");
-    for(ingredient of dish.extendedIngredients){
+    for(ingredient of ingredients){
         var name = ingredient.name;
         var quantity = ingredient.amount*p;
         var price = 2*quantity;
@@ -73,11 +77,7 @@ var loadIngredients = function(){
     ingredientsPeople.html("<b>Ingredients for " +  p +" people</b>");
     totalDishCost.html("SEK" + " " + dishPrice.toFixed(2));
 
-  }).catch(error =>{
-          loaderDiv.html("Failing to load some data, please check your internet connection");
-          console.log(error);
-          
-  });
+
 }
 
 var loadAddButton = function(){
@@ -101,7 +101,6 @@ this.update = function(arg) {
       loaderDiv.html("<div class='container loader'></div>");
       loadDishDetails();
   } else if (arg == "numberOfGuestsChanged"){
-      loaderDiv.html("<div class='container loader'></div>");
       loadIngredients();
   } else if (arg == "dishAddedToMenu"){
     loadAddButton();
@@ -115,7 +114,7 @@ this.update = function(arg) {
 }
 
 this.show = function() {
-      container.show()    
+      container.show()
       this.update("loadDishDetails");
 }
 
