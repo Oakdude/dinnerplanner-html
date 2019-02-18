@@ -63,11 +63,12 @@ var DinnerModel = function() {
 	}
 
 	//Returns all ingredients for all the dishes on the menu.
-	
+
   this.getAllIngredients = function() {
 		//TODO Lab 1
     var fullIngredients=[];
     for (dish of menu) {
+			console.log("hejejerj");
       //fullIngredients.push(menu[i].ingredients);
       for (ingredient of dish.ingredients){
         fullIngredients.push(ingredient);
@@ -94,7 +95,7 @@ var DinnerModel = function() {
 				dishIngredients.push(ingredient);
 
 			}
-			
+
 		});
 		return dishIngredients;
 	}
@@ -128,7 +129,7 @@ var DinnerModel = function() {
     		menu.push(dish);
     		this.notifyObservers("dishAddedToMenu");
     	});
-		
+
     }
 
 
@@ -192,7 +193,7 @@ var DinnerModel = function() {
 	  	console.log(dish);
 	  	return dish;
 	  });
-	  
+
 	}
 
 	this.fetchDishSummary = function (id) {
@@ -200,7 +201,7 @@ var DinnerModel = function() {
 		return fetch(url,{
 	            headers:{
 	                "X-Mashape-Key": API_KEY,
-	                "Access-Control-Allow-Origin" : "http://sunset.nada.kth.se"
+	                "Access-Control-Allow-Origin" : "http://sunset.nada.kth.se:8080/iprog/group/33/recipes/"
 	            }
 	      }).then(handleHTTPError)
 			.then(response => response.json())
@@ -213,11 +214,12 @@ var DinnerModel = function() {
 		return fetch(url,{
 	            headers:{
 	                "X-Mashape-Key": API_KEY,
-	                "Access-Control-Allow-Origin" : "http://sunset.nada.kth.se"
+	                "Access-Control-Allow-Origin" : "http://sunset.nada.kth.se:8080/iprog/group/33/recipes/"
 	            }
 	      }).then(handleHTTPError)
 			.then(response => response.json())
 	        .then(data => data[0]);
+
 	}
 	//testing api fetch ajax thing
 
@@ -226,17 +228,17 @@ var DinnerModel = function() {
 	this.fetchAllDishes = function(type, filter) {
 		var apiURL = "http://sunset.nada.kth.se:8080/iprog/group/33/recipes/search";
 		var queryURL = apiURL;
-		queryURL += "?type=" + type.replace(/\s/g, "+"); 
+		queryURL += "?type=" + type.replace(/\s/g, "+");
 		if(filter) {
 			queryURL += "&query=" + filter.replace(/\s/g, "+");
 		}
-		
+
 		console.log(queryURL);
 		return fetch(queryURL,{
 	            headers:{
 	                "X-Mashape-Key": API_KEY,
-	                "Access-Control-Allow-Origin" : "http://sunset.nada.kth.se" 
-	                
+	                "Access-Control-Allow-Origin" : "http://sunset.nada.kth.se:8080/iprog/group/33/recipes/"
+
 	            }
 	      }).then(handleHTTPError)
 					.then(response => response.json())
