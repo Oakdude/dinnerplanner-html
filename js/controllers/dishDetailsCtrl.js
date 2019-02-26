@@ -5,7 +5,9 @@ var DishDetailsCtrl = function(view, model, app) {
 
   view.addToMenuBtn.click(function(){
     var dishId = model.getSelectedDish2();
-    model.addDishToMenu(dishId);
+
+      model.addDishToMenu(dishId);
+    
   });
 
 }
